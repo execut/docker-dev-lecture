@@ -1,0 +1,12 @@
+*filter
+...
+# Открывает входящий порт контейнера MySQL 172.23.0.2:3306:
+-A DOCKER -d 172.23.0.2/32 ! -i br-5e4ed4dd2d1e -o br-5e4ed4dd2d1e -p tcp -m tcp --dport 3306 -j ACCEPT
+# Открывает входящий порт контейнера Nginx 172.23.0.4:80:
+-A DOCKER -d 172.23.0.4/32 ! -i br-5e4ed4dd2d1e -o br-5e4ed4dd2d1e -p tcp -m tcp --dport 80 -j ACCEPT
+*nat
+...
+# Пробрасывает порт localhost:3311 к контейнеру MySQL:
+-A DOCKER ! -i br-5e4ed4dd2d1e -p tcp -m tcp --dport 3311 -j DNAT --to-destination 172.23.0.2:3306
+# Пробрасывает порт localhost:8100 к контейнеру Nginx:
+-A DOCKER ! -i br-5e4ed4dd2d1e -p tcp -m tcp --dport 8100 -j DNAT --to-destination 172.23.0.4:80

@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+    without-docker-container:
+      image: ubuntu
+      entrypoint: sleep infinity
+      volumes:
+        - ./image-files/configs:/configs
